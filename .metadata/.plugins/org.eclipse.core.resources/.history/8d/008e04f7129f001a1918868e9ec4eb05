@@ -1,0 +1,3 @@
+index=model.IndexPage
+commercial=model.CommercialPage
+estate=model.EstatePage

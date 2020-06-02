@@ -1,0 +1,1627 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<%@ include file="../include/header_index.jsp"%>
+
+<%@ include file="../include/header_menu.jsp"%>
+	<h3>결제방법선택</h3>
+	<div class="way_process_wrap">
+		<div class="way_process_cont">
+
+
+			<div class="pay_way_section" id="pay_way_section_syrup"
+				style="display: none" data-log-actionid-area="11pay">
+				<div class="pay_way_head">
+					<div class="pay_way_chk">
+						<input type="radio" id="pmSyrup" name="payWay" value="SYRUP"
+							onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentMethodType(this, '11pay');"
+							disableddata-log-actionid-area="payment"
+							data-log-actionid-label="payment_method_type"> <label
+							for="pmSyrup"><span class="sp_skpay">SK pay</span></label>
+					</div>
+					<span class="pay_notice_txt" id="pay_notice_txt_syrup"></span> <span
+						class="ico_arrow"
+						onclick="javascript:if(!$('#pmSyrup').prop('disabled')){step5.changePayMethodByUser('SYRUP');setCashRcptSaveYn();}">자세히
+						보기</span>
+				</div>
+				<!-- 로딩중 -->
+				<div class="pay_way_body" id="elevenpayload" style="display: none;">
+					<div class="loading_area">
+						<img src="https://www.11st.co.kr/img/cart_order/loading.gif"
+							alt="">
+						<p class="loading_notice">결제정보를 불러오는 중입니다.</p>
+					</div>
+				</div>
+				<!-- //로딩중 -->
+				<!-- 로딩실패 -->
+				<div class="pay_way_body" id="elevenpayloadFail"
+					style="display: none;">
+					<div class="loading_area">
+						<p class="loading_notice">
+							일시적 접속 장애로 결제 정보 조회가 어렵습니다.<br>다른 결제수단을 이용해주시기 바랍니다.
+						</p>
+					</div>
+				</div>
+				<div class="pay_way_body" id="elevenpayloadFailDiff"
+					style="display: none;">
+					<div class="loading_area">
+						<p class="loading_notice">
+							부정확한 회원정보가 있는 경우, SK pay 사용이 불가합니다. <br>‘나의11번가&gt;회원정보‘에서 기
+							등록된 정보를 확인해주세요.
+						</p>
+					</div>
+				</div>
+				<!-- //로딩실패 -->
+				<!-- 등록 정보 없음  -->
+				<div class="pay_way_body" id="elevenpayNoReg" style="display: none;">
+
+					<div class="pay_discount_info">
+						<p class="pay_discount_desc">SK pay 결제 시, 등급별 최대 2% SK pay
+							point 적립 (PC바로가기/App한정)</p>
+					</div>
+
+					<div class="pay_way_info">
+						<h4 class="skip">카드 등록</h4>
+						<ul class="card_list"
+							data-log-actionid-label="payment_means_registration">
+							<li><a href="#"
+								onclick="elevenpay.addPaymethod('BANK');return false;"
+								class="card_add" data-log-body="{'payment_means_name':'계좌'}"><span
+									class="ico_bank"></span>은행 계좌</a></li>
+							<li><a href="#"
+								onclick="elevenpay.addPaymethod('CARD');return false;"
+								class="card_add" data-log-body="{'payment_means_name':'카드'}"><span
+									class="ico_card"></span>신용카드</a></li>
+							<li><a href="#"
+								onclick="elevenpay.addPaymethod('PHONE');return false;"
+								class="card_add" data-log-body="{'payment_means_name':'휴대폰'}"><span
+									class="ico_phone"></span>휴대폰</a></li>
+
+							<li><a href="#"
+								onclick="elevenpay.addPaymethod('TOSS');return false;"
+								class="card_add" data-log-body="{'payment_means_name':'토스'}"><span
+									class="ico_toss"></span>토스</a></li>
+							<li><a href="#"
+								onclick="elevenpay.addPaymethod('FINNQ');return false;"
+								class="card_add" data-log-body="{'payment_means_name':'핀크'}"><span
+									class="ico_finnq"></span>핀크</a></li>
+
+						</ul>
+					</div>
+				</div>
+				<!-- // 등록정보 없음 -->
+				<!-- 결제 수단 노출 -->
+				<div class="pay_way_body" id="elevenpayReg" style="display: none;">
+
+					<div class="pay_discount_info">
+						<p class="pay_discount_desc">SK pay 결제 시, 등급별 최대 2% SK pay
+							point 적립 (PC바로가기/App한정)</p>
+					</div>
+
+					<ul class="card_lst" id="elevenpayRegList">
+					</ul>
+				</div>
+				<!-- // 결제수단 노출  -->
+				<!-- 카드 선택 시  -->
+				<div class="pay_way_foot" id="elevenpayFooterDiv"
+					style="display: none;">
+					<div id="cardPayment11PayDiv" style="display: none;">
+						<label for="cardPayment" class="card_payment_tit"
+							id="card11PaymentText">할부방식</label> <select id="card11Payment"
+							name="card11Payment" style="width: 140px;"
+							onchange="elevenpay.changeShowCardPoint();step5.chgOrdRewardItmCd();rakeLog.sendRakeLog(this);"
+							data-log-actionid-label="installment_period_select">
+							<option value="0"
+								data-log-body="{'installment_period_value':'0'}">일시불</option>
+							<option value="2"
+								data-log-body="{'installment_period_value':'2'}">2 개월</option>
+							<option value="3"
+								data-log-body="{'installment_period_value':'3'}">3 개월</option>
+							<option value="4"
+								data-log-body="{'installment_period_value':'4'}">4 개월</option>
+							<option value="5"
+								data-log-body="{'installment_period_value':'5'}">5 개월</option>
+							<option value="6"
+								data-log-body="{'installment_period_value':'6'}">6 개월</option>
+							<option value="7"
+								data-log-body="{'installment_period_value':'7'}">7 개월</option>
+							<option value="8"
+								data-log-body="{'installment_period_value':'8'}">8 개월</option>
+							<option value="9"
+								data-log-body="{'installment_period_value':'9'}">9 개월</option>
+							<option value="10"
+								data-log-body="{'installment_period_value':'10'}">10개월</option>
+							<option value="11"
+								data-log-body="{'installment_period_value':'11'}">11개월</option>
+							<option value="12"
+								data-log-body="{'installment_period_value':'12'}">12개월</option>
+						</select>
+						<div class="checklabel_box" id="elevnPayCardPointDiv"
+							data-log-actionid-label="use_card_point_check">
+							<label><input type="checkbox" id="elevnPayCardPointUse"
+								value="Y" onclick="rakeChkbox(this);checkedCardPoint(this);"><span
+								id="card11payPoint">신용카드 포인트 사용</span></label>
+						</div>
+					</div>
+					<div id="tossPayment11PayDiv" style="display: none;">
+						<p class="txt_notice"></p>
+					</div>
+					<div id="finnqPayment11PayDiv" style="display: none;">
+						<p class="txt_notice"></p>
+					</div>
+					<div class="btn_flt">
+						<a href="#" onclick="elevenpay.addPaymethod('ALL');return false;"
+							class="defbtn_sm dtype6"
+							data-log-actionid-label="payment_means_registration_btn"><span>결제수단
+								추가</span></a> <a href="#"
+							onclick="elevenpay.addPaymethod('SETTING');return false;"
+							class="defbtn_sm dtype6" data-log-actionid-label="setting"><span>SK
+								pay 설정</span></a>
+					</div>
+				</div>
+				<!-- // 카드 선택 시  -->
+			</div>
+			<!-- // 11pay -->
+			<!-- others -->
+			<div class="pay_way_section selected" id="pay_way_section_payOthers"
+				style="display:">
+				<div class="pay_way_head">
+					<div class="pay_way_chk">
+						<input type="radio" id="payOthers" name="payWay" value="ETC"
+							onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentMethodType(this, '일반');"
+							data-log-actionid-area="payment"
+							data-log-actionid-label="payment_method_type" checked="checked"
+							data-is-ab-send="1"> <label for="payOthers">다른
+							결제수단</label>
+					</div>
+					<span class="pay_notice_txt"></span> <span class="ico_arrow"
+						onclick="javascript:if(!$('#payOthers').prop('disabled')){step5.changePayMethodByUser('ETC');setCashRcptSaveYn();}">자세히
+						보기</span>
+				</div>
+				<div class="pay_way_body">
+					<div class="etc_payment" data-log-actionid-area="payment"
+						data-log-actionid-label="payment_method">
+						<span style="display:"> <span style="display: none"><input
+								type="radio" id="pmCard" name="payMethod0" value="3101"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();"
+								checked="checked">신용카드</span> <label for="cardType0"
+							class="selected"><input type="radio" id="cardType0"
+								name="payMethod" value="00"
+								onclick="javascript:step5.changeCardPayment(this.value,true);step5.checkCCHNPoint();step5.chkSmartPay();rakePaymentTypeSelLog(this);"
+								checked="checked"
+								data-log-body="{&quot;payment_method_code&quot;:&quot;00&quot;,&quot;payment_method_name&quot;:&quot;신용카드(일반)&quot;,&quot;card_company_code&quot;:&quot;01&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}">신용카드(일반)</label>
+							<label for="cardType1"><input type="radio" id="cardType1"
+								name="payMethod" value="01"
+								onclick="javascript:step5.changeCardPayment(this.value,true);step5.checkCCHNPoint();step5.chkSmartPay();rakePaymentTypeSelLog(this);">신용카드(법인)</label>
+							<label for="cardType2"><input type="radio" id="cardType2"
+								name="payMethod" disabled="" value="02"
+								onclick="javascript:step5.changeCardPayment(this.value,true);step5.checkCCHNPoint();step5.chkSmartPay();rakePaymentTypeSelLog(this);">해외발급카드</label>
+						</span> <span style="display: none" disabled=""> <label><input
+								type="radio" id="pmRealtime" name="payMethod" value="4101"
+								onclick="setCashRcptSaveYn();rakePaymentTypeSelLog(this);return suggestElevenPayBank(this.value);">실시간계좌이체</label>
+						</span> <span style="display:"> <label><input type="radio"
+								id="pmAccount" name="payMethod" value="5101"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentTypeSelLog(this);">무통장입금</label>
+						</span> <span style="display: none" disabled=""> <label><input
+								type="radio" id="pmPhone" name="payMethod" value="7201"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentTypeSelLog(this);">휴대폰결제</label>
+						</span> <span style="display: none" disabled=""> <label><input
+								type="radio" id="pmPayco" name="payMethod" value="PAYC"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaycoSelLog(this);">PAYCO</label>
+						</span> <span style="display: none" disabled=""> <label><input
+								type="radio" id="pmTcash" name="payMethod" value="8201"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentTypeSelLog(this);">모바일티머니</label>
+						</span> <span style="display: none" disabled=""> <label><input
+								type="radio" id="pmCvs" name="payMethod" value="6101"
+								onclick="javascript:step5.changePayMethodByUser(this.value);setCashRcptSaveYn();rakePaymentTypeSelLog(this);">편의점결제</label>
+						</span>
+					</div>
+					<div class="etc_payment_cont">
+						<table>
+							<caption>상품 결제정보 목록</caption>
+							<colgroup>
+								<col style="width: 133px;">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr id="CARD_TABLE1_COMMON" name="CARD_TABLE1_COMMON" style=""
+									data-log-actionid-area="payment_card" data-is-ab-send="1">
+									<th scope="row">카드선택</th>
+									<td>
+										<ul class="bank_lst"
+											data-log-actionid-label="card_company_btn">
+											<input type="hidden" id="cardKind" name="cardKind" value="31">
+											<div id="PanTmallDiv">
+												<li name="cardKindCtl" id="cardKindCtl01" class=""><a
+													href="#" class="bank_item" data-val="C01"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;KB국민카드&quot;, &quot;01&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;KB국민카드&quot;,&quot;card_company_code&quot;:&quot;01&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_kb"></span>KB국민</a></li>
+												<li name="cardKindCtl" id="cardKindCtl02" class=""><a
+													href="#" class="bank_item" data-val="C02"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;삼성카드&quot;, &quot;02&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;삼성카드&quot;,&quot;card_company_code&quot;:&quot;02&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_samsung"></span>삼성</a></li>
+												<li name="cardKindCtl" id="cardKindCtl07" class=""><a
+													href="#" class="bank_item" data-val="C07"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;현대카드&quot;, &quot;07&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;현대카드&quot;,&quot;card_company_code&quot;:&quot;07&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_hyundai"></span>현대</a></li>
+												<li name="cardKindCtl" id="cardKindCtl08" class=""><a
+													href="#" class="bank_item" data-val="C08"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;신한카드&quot;, &quot;08&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;신한카드&quot;,&quot;card_company_code&quot;:&quot;08&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안심/간편 결제&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_shinhan"></span>신한</a></li>
+												<li name="cardKindCtl" id="cardKindCtl06" class=""><a
+													href="#" class="bank_item" data-val="C06"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;롯데카드&quot;, &quot;06&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;롯데카드&quot;,&quot;card_company_code&quot;:&quot;06&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_lotte"></span>롯데</a></li>
+												<li name="cardKindCtl" id="cardKindCtl16" class=""><a
+													href="#" class="bank_item" data-val="C16"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;NH농협카드&quot;, &quot;16&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;NH농협카드&quot;,&quot;card_company_code&quot;:&quot;16&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_nh"></span>NH농협</a></li>
+												<li name="cardKindCtl" id="cardKindCtl31" class="selected"><a
+													href="#" class="bank_item" data-val="C31"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;우리카드&quot;, &quot;31&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;우리카드&quot;,&quot;card_company_code&quot;:&quot;31&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_woori"></span>우리</a></li>
+												<li name="cardKindCtl" id="cardKindCtl17" class=""><a
+													href="#" class="bank_item" data-val="C17"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;하나카드&quot;, &quot;17&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;하나카드&quot;,&quot;card_company_code&quot;:&quot;17&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안심클릭&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_hana"></span>하나</a></li>
+												<li name="cardKindCtl" id="cardKindCtl11" class=""><a
+													href="#" class="bank_item" data-val="C11"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;씨티카드&quot;, &quot;11&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;씨티카드&quot;,&quot;card_company_code&quot;:&quot;11&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_citi"></span>씨티</a></li>
+												<li name="cardKindCtl" id="cardKindCtl35" class=""><a
+													href="#" class="bank_item" data-val="C35"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;SC리워드카드&quot;, &quot;35&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;SC리워드카드&quot;,&quot;card_company_code&quot;:&quot;35&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_standard"></span>SC리워드</a></li>
+												<li name="cardKindCtl" id="cardKindCtl40" class=""><a
+													href="#" class="bank_item" data-val="C40"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;카카오뱅크카드&quot;, &quot;40&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;카카오뱅크카드&quot;,&quot;card_company_code&quot;:&quot;40&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_kakao"></span>카카오뱅크</a></li>
+												<li name="cardKindCtl" id="cardKindCtl27" class=""><a
+													href="#" class="bank_item" data-val="C27"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;비씨카드&quot;, &quot;27&quot;);return false;"
+													data-log-body="{&quot;btn_name&quot;:&quot;비씨카드&quot;,&quot;card_company_code&quot;:&quot;27&quot;,&quot;installment_period_value&quot;:&quot;0&quot;,&quot;card_pay_type_code&quot;:&quot;&quot;,&quot;card_pay_type_name&quot;:&quot;&quot;,&quot;card_point_use_check_value&quot;:&quot;false&quot;}"><span
+														class="sp_card ico_bc"></span>비씨</a></li>
+												<li name="cardKindCtl" id="cardKindCtlETC"><a href="#"
+													class="bank_item" data-val="CETC"
+													onclick="step5.setSelCardKind(this);rakeCardBody(this, &quot;기타카드&quot;, &quot;ETC&quot;);return false;"><span
+														class="sp_card ico_etc"></span>기타카드</a></li>
+											</div>
+										</ul>
+
+									</td>
+								</tr>
+								<!-- 기타카드  -->
+								<tr id="CARD_TABLE1_COMMON_ETC" name="CARD_TABLE1_COMMON_ETC"
+									style="display: none" data-log-actionid-area="payment_card">
+									<th scope="row">카드선택</th>
+									<td id="PanTmallSelect"
+										data-log-actionid-label="card_company_select"><select
+										id="cardKindEtc" name="cardKindEtc" style="width: 140px;"
+										onchange="step5.setSelCardKindEtc(this.value);rakeEtcCardSel(this);"><option
+												value="">선택하세요</option>
+											<option value="22">제주카드</option>
+											<option value="97">신협체크카드</option>
+											<option value="21">광주카드</option>
+											<option value="14">수협카드</option>
+											<option value="20">전북카드</option>
+											<option value="33">우체국카드</option>
+											<option value="34">KDB카드</option>
+											<option value="37">KB[구 현대]증권체크카드</option></select></td>
+									<script>
+                                    
+                                    var initCardSelectEtc = "<select id='cardKindEtc' name='cardKindEtc' style='width:140px;' onChange='step5.setSelCardKindEtc(this.value);rakeEtcCardSel(this);'><option value=''>선택하세요</option><option value='22'>제주카드</option><option value='97'>신협체크카드</option><option value='21'>광주카드</option><option value='14'>수협카드</option><option value='20'>전북카드</option><option value='33'>우체국카드</option><option value='34'>KDB카드</option><option value='37'>KB[구 현대]증권체크카드</option>";
+								</script>
+								</tr>
+								<!-- //기타카드 -->
+								<!-- 결제방식  -->
+								<tr id="smartCardKind_div" style="display: none;"
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제방식</th>
+									<td>
+										<div class="tdin_radioarea"
+											data-log-actionid-label="card_pay_type_select">
+											<label for="spayYn0"><input type="radio" id="spayYn0"
+												name="spayYn" value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안심클릭&quot;}"
+												checked="">안심클릭</label> <label for="spayYn1"><input
+												type="radio" id="spayYn1" name="spayYn" value="Y"
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;SimplePay&quot;,&quot;card_pay_type_name&quot;:&quot;간편결제&quot;}">간편결제</label>
+											<label for="sSet2" id="smartPayEventCommentParent"><span
+												class="Txtsize11 PointBW"> <a
+													id="smartPayEventComment"
+													href="http://www.11st.co.kr/browsing/MallPlanDetail.tmall?method=getMallPlanDetail&amp;planDisplayNumber=269720"
+													target="_blank" class="icon_bw" style="display: none;">자세히보기</a></span></label>
+										</div>
+									</td>
+								</tr>
+								<tr id="smartCardKindSpeed_div" style="display: none"
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제방식</th>
+									<td>
+										<div class="tdin_radioarea"
+											data-log-actionid-label="card_pay_type_select">
+											<label for="speedSpayYn0"><input type="radio"
+												id="speedSpayYn0" name="speedSpayYn" value="Y"
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;SimplePay&quot;,&quot;card_pay_type_name&quot;:&quot;PayAll(구Speed결제)&quot;}">PayAll(구Speed결제)</label>
+											<label for="speedSpayYn1"><input type="radio"
+												id="speedSpayYn1" name="speedSpayYn" value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안전결제(ISP)&quot;}"
+												checked="">안전결제(페이북/ISP)</label> <label for="sSet2"
+												id="smartPayEventCommentParent"><span
+												class="Txtsize11 PointBW"> <a
+													id="smartPayEventCommentSpeed"
+													href="http://www.11st.co.kr/browsing/MallPlanDetail.tmall?method=getMallPlanDetail&amp;planDisplayNumber=283721"
+													target="_blank" class="icon_bw" style="display: none;">자세히보기</a></span></label>
+										</div>
+									</td>
+								</tr>
+								<tr id="appCardKind_div" style="display: none"
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제방식</th>
+									<td>
+										<div class="tdin_radioarea"
+											data-log-actionid-label="card_pay_type_select">
+											<label for="appPayYn0"><input type="radio"
+												id="appPayYn0" name="appPayYn" value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안전결제(ISP)&quot;}"
+												checked="">안전결제(페이북/ISP)</label> <label for="appPayYn1"><input
+												type="radio" id="appPayYn1" name="appPayYn" value="Y"
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;AppPay&quot;,&quot;card_pay_type_name&quot;:&quot;앱카드 간편결제&quot;}">앱카드
+												간편결제</label>
+										</div>
+									</td>
+								</tr>
+								<tr id="smartAppCardKind_div" style="display: none;"
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제방식</th>
+									<td>
+										<div class="tdin_radioarea"
+											data-log-actionid-label="card_pay_type_select">
+											<!-- 2014-04-10 박환욱 : 안심/간편 + 앱카드결제 추가 -->
+											<label for="smartAppPayYn0"><input type="radio"
+												id="smartAppPayYn0" name="smartAppPayYn" value="Y"
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안심/간편 결제&quot;}"
+												checked="">안심/간편 결제</label> <label for="smartAppPayYn1"><input
+												type="radio" id="smartAppPayYn1" name="smartAppPayYn"
+												value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;AppPay&quot;,&quot;card_pay_type_name&quot;:&quot;앱카드 간편결제&quot;}">앱카드
+												간편결제</label>
+											<!--// 2014-04-10 박환욱 : 안심/간편 + 앱카드결제 추가  -->
+										</div>
+									</td>
+								</tr>
+								<tr id="samsungAppCardKind_div" style="display: none"
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제방식</th>
+									<td>
+										<div class="tdin_radioarea"
+											data-log-actionid-label="card_pay_type_select">
+											<!-- 2014-04-10 박환욱 : 안심/간편 + 앱카드결제 추가 (삼성, 롯데 공동 사용)-->
+											<label for="samsungAppPayYn0"><input type="radio"
+												id="samsungAppPayYn0" name="samsungAppPayYn" value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;Ansim&quot;,&quot;card_pay_type_name&quot;:&quot;안심클릭&quot;}"
+												checked="">안심클릭</label> <label for="samsungAppPayYn1"><input
+												type="radio" id="samsungAppPayYn1" name="samsungAppPayYn"
+												value="Y"
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;SimplePay&quot;,&quot;card_pay_type_name&quot;:&quot;간편결제&quot;}">간편결제</label>
+											<label for="samsungAppPayYn2"><input type="radio"
+												id="samsungAppPayYn2" name="samsungAppPayYn" value=""
+												onclick="step5.chkSmartPay();rakeLog.sendRakeLog(this);"
+												data-log-body="{&quot;card_pay_type_code&quot;:&quot;AppPay&quot;,&quot;card_pay_type_name&quot;:&quot;앱카드 간편결제&quot;}">앱카드
+												간편결제</label>
+											<!--// 2014-04-10 박환욱 : 안심/간편 + 앱카드결제 추가  -->
+										</div>
+									</td>
+								</tr>
+								<!-- // 결제방식  -->
+								<!-- 할부방식  -->
+								<tr id="CARD_TABLE_COMMON" name="CARD_TABLE_COMMON" style=""
+									data-log-actionid-area="payment_card">
+									<th scope="row"><label for="cardPayment">할부방식</label></th>
+									<td><select name="cardPayment" id="cardPayment"
+										style="width: 140px;"
+										onchange="step5.chkCardPointInstallment(this.value);step5.chkMyFreeCC();step5.chkInstallment();rakeLog.sendRakeLog(this);"
+										data-log-actionid-label="installment_period_select"
+										disabled="">
+
+
+
+
+
+
+
+
+
+
+
+
+											<option value="0"
+												data-log-body="{'installment_period_value':'0'}">일시불</option>
+											<option value="2"
+												data-log-body="{'installment_period_value':'2'}">2개월
+											</option>
+											<option value="3"
+												data-log-body="{'installment_period_value':'3'}">3개월
+											</option>
+											<option value="4"
+												data-log-body="{'installment_period_value':'4'}">4개월
+											</option>
+											<option value="5"
+												data-log-body="{'installment_period_value':'5'}">5개월
+											</option>
+											<option value="6"
+												data-log-body="{'installment_period_value':'6'}">6개월
+											</option>
+											<option value="7"
+												data-log-body="{'installment_period_value':'7'}">7개월
+											</option>
+											<option value="8"
+												data-log-body="{'installment_period_value':'8'}">8개월
+											</option>
+											<option value="9"
+												data-log-body="{'installment_period_value':'9'}">9개월
+											</option>
+											<option value="10"
+												data-log-body="{'installment_period_value':'10'}">10개월
+											</option>
+											<option value="11"
+												data-log-body="{'installment_period_value':'11'}">11개월
+											</option>
+											<option value="12"
+												data-log-body="{'installment_period_value':'12'}">12개월
+											</option>
+									</select> <label style="display: none"> <span
+											id="spanCardFreeMon" class="tdin_note3"></span> <span
+											id="myFreeCCNotice2" style="display: none"></span> <span
+											id="myFreeCCNotice" style="display: none"></span> <span
+											id="freeCCNotice" style="display: none">2,3개월(5만원↑)
+												무이자할부가능</span>
+									</label> <!-- 카드포인트:S  -->
+										<div id="CARDPOINT_TABLE" style="display: none;"
+											class="checklabel_box">
+											<label for="ccpoint"><input type="checkbox"
+												id="ccpoint" name="ccpoint"
+												onclick="step5.chkCardPointInstallment(document.mainform.cardPayment.options[document.mainform.cardPayment.selectedIndex].value);rakeChkbox(this);"
+												data-log-actionid-label="card_point_use_check"><span
+												id="pointCC"></span></label>
+
+											<div class="layer_wrap" id="cardPointOutDiv"
+												style="display: none;">
+												<a href="#" class="link_arrdown_txt"
+													onclick="document.getElementById('Lyer_BCTOP').style.display='block'; return false;">포인트사용안내</a>
+												<span id="pointCCDtls"></span>
+												<!-- 레이어영역 -->
+
+												<script>
+                                                var Lyer_BCTOP_status = false;
+                                                function view_Lyer_BCTOP() {
+                                                    window.setTimeout(function() { if ( !Lyer_BCTOP_status  ) {document.getElementById('Lyer_BCTOP').style.display='none'; }},100);
+                                                }
+											</script>
+
+												<div class="layer_def_a have_tit" id="Lyer_BCTOP"
+													style="display: none;"
+													onmouseover="Lyer_BCTOP_status = true;"
+													onmouseout=" Lyer_BCTOP_status = false; view_Lyer_BCTOP()">
+
+													<h4 class="layer_tit">포인트 사용안내</h4>
+													<div class="layer_conts cpoint_bg">
+														<div class="cpoint_box" id="cardPointDiv"></div>
+													</div>
+												</div>
+											</div>
+											<!-- 레이어영역 End -->
+										</div> <!-- 카드포인트:E --></td>
+								</tr>
+								<!-- // 할부방식 -->
+								<tr id="CARD_TABLE" name="CARD_TABLE" style=""
+									data-log-actionid-area="payment_card">
+									<th scope="row">결제안내</th>
+									<td data-log-actionid-label="guide_btn"><a href="#"
+										class="defbtn_sm dtype4"
+										onclick="openInfoPop('popInfoSmartPay.tmall' , 'SmartPayInfo' , 590 , 610, 'no');doCommonStat('ORPA010');return false;"
+										data-log-body="{'btn_name':'간편결제안내'}"><span>간편결제안내</span></a>
+										<a href="#" class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoAuth.tmall' , 'authInfo' , 530 , 560, 'no');doCommonStat('ORPA007');return false;"
+										data-log-body="{'btn_name':'공인인증안내'}"><span>공인인증안내</span></a>
+										<a href="#" class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoISP.tmall' , 'ISPInfo' , 622 , 680, 'no');doCommonStat('ORPA008');return false;"
+										data-log-body="{'btn_name':'안전결제안내'}"><span>안전결제안내</span></a>
+										<a href="#" class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoAnsim.tmall' , 'AnsimInfo' , 530 , 710, 'no');doCommonStat('ORPA009');return false;"
+										data-log-body="{'btn_name':'안심클릭안내'}"><span>안심클릭안내</span></a>
+
+										<a href="#" class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoGlobalPay.tmall' , 'GlobalPay' , 530 , 320, 'no');doCommonStat('ORPA011');return false;"
+										data-log-body="{'btn_name':'해외발급카드안내'}"><span>해외발급카드안내</span></a>
+									</td>
+								</tr>
+
+								<!-- PAYCO -->
+								<tr id="PAYCO_TABLE" name="PAYCO_TABLE" style="display: none"
+									data-log-actionid-area="payment">
+									<th scope="row">상세선택</th>
+									<td>
+										<!-- [D] 선택된 li에 selected클래스 추가 -->
+										<ul class="etc_pay_list"
+											data-log-actionid-label="payment_method_type">
+											<li class="selected" id="payco_detail_card"
+												name="payco_detail"><a href="#" class="pay_item"
+												name="paycoPaymentType" id="paycoPaymentType_CARD"
+												onclick="step5.displayPaycoNotices('CARD');rakeLog.sendRakeLog(this);return false;"
+												value="CARD"
+												data-log-body="{&quot;payco_payment_type&quot;:&quot;CARD&quot;, &quot;payment_method_type_name&quot;:&quot;일반&quot;, &quot;payment_method_code&quot;:&quot;PAYC&quot;,  &quot;payment_method_name&quot;:&quot;PAYCO&quot;}">
+													<span class="ico ico_card"></span> <span>신용카드</span>
+											</a></li>
+											<li id="payco_detail_bank" name="payco_detail"><a
+												href="#" class="pay_item" name="paycoPaymentType"
+												id="paycoPaymentType_BANK"
+												onclick="step5.displayPaycoNotices('BANK');rakeLog.sendRakeLog(this);return false;"
+												value="BANK"
+												data-log-body="{&quot;payco_payment_type&quot;:&quot;BANK&quot;, &quot;payment_method_type_name&quot;:&quot;일반&quot;, &quot;payment_method_code&quot;:&quot;PAYC&quot;,  &quot;payment_method_name&quot;:&quot;PAYCO&quot;}">
+													<span class="ico ico_bank"></span> <span>간편계좌</span>
+											</a></li>
+											<li id="payco_detail_mobile" name="payco_detail"><a
+												href="#" class="pay_item" name="paycoPaymentType"
+												id="paycoPaymentType_MOBILE"
+												onclick="step5.displayPaycoNotices('MOBILE');rakeLog.sendRakeLog(this);return false;"
+												value="MOBILE"
+												data-log-body="{&quot;payco_payment_type&quot;:&quot;MOBILE&quot;, &quot;payment_method_type_name&quot;:&quot;일반&quot;, &quot;payment_method_code&quot;:&quot;PAYC&quot;,  &quot;payment_method_name&quot;:&quot;PAYCO&quot;}">
+													<span class="ico ico_mobile"></span> <span>휴대폰</span>
+											</a></li>
+										</ul>
+										<div class="sett_guide">
+											<!-- 전시구좌 PAYCO -->
+
+
+											<ul class="pay_notice_list" id="pay_notice_list_bank"
+												style="display: none">
+												<li>온/오프라인 쇼핑은 물론 송금,멤버십 적립까지 가능한 통합 서비스입니다</li>
+												<li>PAYCO 관련 문의 : 1544-6891</li>
+												<li>[PAYCO 포인트 적립 프로모션 안내]<br> 행사종료 후 14일 이후 일괄 지급
+													예정(익월 14일) <br> PAYCO 티머니/쿠폰할인금액/포인트 사용 금액은 포함되지 않음 <br>
+													주문 건당 최대 10,000P / 이벤트 기간 내 최대 100,000P 적립
+												</li>
+											</ul>
+
+
+											<!-- //전시구좌 PAYCO -->
+										</div>
+									</td>
+								</tr>
+								<!-- // PAYCO -->
+
+								<!-- 무통장 입금  -->
+								<tr id="NOACCOUNT_TABLE" name="NOACCOUNT_TABLE"
+									style="display: none"
+									data-log-actionid-area="payment_bank_deposit">
+									<th scope="row">은행선택</th>
+									<td>
+										<ul class="bank_lst" data-log-actionid-label="bank">
+											<input type="hidden" name="bankKind" id="bankKind" value=""
+												style="display: none;">
+											<div id="BankKindDiv">
+												<li name="bankKindCtl" id="bankKindCtl04"><a href="#"
+													class="bank_item" data-val="C04"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;04&quot;}"><span
+														class="sp_card ico_kb"></span>국민은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl20"><a href="#"
+													class="bank_item" data-val="C20"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;20&quot;}"><span
+														class="sp_card ico_woori"></span>우리은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl88"><a href="#"
+													class="bank_item" data-val="C88"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;88&quot;}"><span
+														class="sp_card ico_shinhan"></span>신한은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl81"><a href="#"
+													class="bank_item" data-val="C81"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;81&quot;}"><span
+														class="sp_card ico_hana"></span>하나은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl11"><a href="#"
+													class="bank_item" data-val="C11"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;11&quot;}"><span
+														class="sp_card ico_nh"></span>농협은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl03"><a href="#"
+													class="bank_item" data-val="C03"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;03&quot;}"><span
+														class="sp_card ico_ibk"></span>기업은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl32"><a href="#"
+													class="bank_item" data-val="C32"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;32&quot;}"><span
+														class="sp_card ico_busan"></span>부산은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl05"><a href="#"
+													class="bank_item" data-val="C05"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;05&quot;}"><span
+														class="sp_card ico_keb"></span>외환은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl34"><a href="#"
+													class="bank_item" data-val="C34"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;34&quot;}"><span
+														class="sp_card ico_kj"></span>광주은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl23"><a href="#"
+													class="bank_item" data-val="C23"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;23&quot;}"><span
+														class="sp_card ico_standard"></span>제일은행</a></li>
+												<li name="bankKindCtl" id="bankKindCtl39"><a href="#"
+													class="bank_item" data-val="C39"
+													onclick="step5.setSelBankKind(this,true);return false;"
+													data-log-body="{&quot;bank_code&quot;:&quot;39&quot;}"><span
+														class="sp_card ico_kn"></span>경남은행</a></li>
+											</div>
+											<span id="bankInfo"></span>
+										</ul>
+
+										<div class="pay_notice_guide">
+											<strong class="ico_noti">공지</strong>
+											<p>입금기한 : 05월 27일</p>
+										</div>
+
+									</td>
+								</tr>
+								<!-- // 무통장 입금  -->
+								<!-- 편의점 결제 -->
+								<tr id="CVS_TABLE" name="CVS_TABLE" style="display: none">
+									<th scope="row">입금편의점</th>
+									<td><input type="hidden" id="prodCount" name="prodCount"
+										value="1"> GS25, CU, 세븐일레븐, 바이더웨이
+
+										<div class="pay_notice_guide">
+											<strong class="ico_noti">공지</strong>
+											<p>입금기한 : 05월 27일</p>
+										</div></td>
+								</tr>
+								<!-- // 편의점 결제  -->
+								<!-- 무통장,편의점결제 환불방식:S -->
+								<tr id="NOACCOUNT_TABLE_ACCNO" name="NOACCOUNT_TABLE_ACCNO"
+									style="display: none">
+
+									<th scope="row">환불방식</th>
+									<td>
+										<!-- 계좌인증위해 필요한폼 --> <input type="hidden" id="bnkCd"
+										name="bnkCd"> <!-- 은행코드 --> <input type="hidden"
+										id="acctNo" name="acctNo"> <!-- 계좌번호 --> <input
+										type="hidden" id="acctOwnNm" name="acctOwnNm"> <!-- 예금주명 -->
+										<input type="hidden" id="rfndBnkAuth" name="rfndBnkAuth">
+										<input type="hidden" id="rfndMtdCd" name="rfndMtdCd"
+										value="02"> <!-- 환불방식코드(비회원인경우 무조건 무통장환불) --> <input
+										type="hidden" id="acctSeq" name="acctSeq"> <input
+										type="hidden" id="orgRfndBnkCd" name="orgRfndBnkCd"> <input
+										type="hidden" id="orgRfndAcctNo" name="orgRfndAcctNo">
+										<input type="hidden" id="orgRfndAcctOwn" name="orgRfndAcctOwn">
+										<input type="hidden" id="rfndBnkCd" name="rfndBnkCd" value="">
+										<input type="hidden" id="rfndAcctNo" name="rfndAcctNo"
+										value=""> <input type="hidden" id="rfndAcctOwn"
+										name="rfndAcctOwn" value="">
+
+										<div class="">
+											<div class="BankCheckW">
+												<select name="rfndBnkCd_tmp" id="rfndBnkCd_tmp"
+													style="width: 140px; display: none;" title="은행선택"
+													onchange="step5.chgBankAuthInfo()">
+													<option value="">은행선택</option>
+													<option value="04">국민</option>
+													<option value="20">우리</option>
+													<option value="88">신한</option>
+													<option value="07">수협</option>
+													<option value="31">대구</option>
+													<option value="81">하나</option>
+													<option value="02">산업</option>
+													<option value="11">농협</option>
+													<option value="45">새마을금고</option>
+													<option value="12">농협단위</option>
+													<option value="03">기업</option>
+													<option value="53">씨티</option>
+													<option value="32">부산</option>
+													<option value="05">외환</option>
+													<option value="71">우체국</option>
+													<option value="34">광주</option>
+													<option value="37">전북</option>
+													<option value="35">제주</option>
+													<option value="16">축협</option>
+													<option value="23">제일</option>
+													<option value="48">신협</option>
+													<option value="50">상호저축</option>
+													<option value="27">한미</option>
+													<option value="54">홍콩상하이</option>
+													<option value="209">동양종합금융증권</option>
+													<option value="218">현대증권</option>
+													<option value="230">미래에셋증권</option>
+													<option value="243">한국투자증권</option>
+													<option value="247">우리투자증권</option>
+													<option value="262">하이투자증권</option>
+													<option value="263">HMC투자증권</option>
+													<option value="266">SK증권</option>
+													<option value="267">대신증권</option>
+													<option value="270">하나대투증권</option>
+													<option value="278">신한금융투자</option>
+													<option value="279">동부증권</option>
+													<option value="280">유진투자증권</option>
+													<option value="287">메리츠종합금융증권</option>
+													<option value="291">신영증권</option>
+													<option value="39">경남</option>
+													<option value="89">케이뱅크</option>
+													<option value="64">산림조합</option>
+
+												</select> <input id="rfndAcctNo_tmp" name="rfndAcctNo_tmp"
+													type="text" style="width: 120px; IME-MODE: disabled"
+													onkeypress="common.onlyNumberInput(event);"
+													onchange="step5.chgBankAuthInfo()" title="계좌번호 입력"
+													onfocus="this.value='';"> <input
+													id="rfndAcctOwn_tmp" name="rfndAcctOwn_tmp" type="text"
+													style="width: 50px;" onchange="step5.chgBankAuthInfo()"
+													title="예금주 입력" onfocus="this.value='';"> <a
+													href="#" class="defbtn_sm dtype6"
+													onclick="step5.bankAuth();return false;"><span>계좌인증</span></a>
+											</div>
+										</div> <script>
+                                        jQuery(document).ready(function() {
+                                            jQuery('#rfndAcctNo_tmp').bind("cut copy paste", function(e) {
+                                                e.preventDefault();
+                                            });
+                                        });
+									</script>
+									</td>
+
+								</tr>
+								<!-- 무통장,편의점결제 환불방식:E -->
+
+								<!-- 무통장 입금 안내  -->
+								<tr id="NOACCOUNT_TABLE" name="NOACCOUNT_TABLE"
+									style="display: none"
+									data-log-actionid-area="payment_bank_deposit">
+									<th scope="row">결제안내</th>
+									<td><a href="#" class="defbtn_sm dtype6" title="새창열림"
+										onclick="openInfoPop('popInfoNonBank.tmall' , 'backInfo' , 480 , 495, 'no');doCommonStat('ORPA002');return false;"
+										data-log-actionid-label="guide"><span>무통장입금안내</span></a>
+										<div class="sett_guide">
+											<ul>
+
+												<li>주문 후 1일(영업일 기준, 주말/공휴일제외) 이내 입금확인이 되지 않으면 주문이 자동 취소
+													처리됩니다.</li>
+
+												<li>입금시 예금주명은 '11번가'로 확인될 수 있습니다.</li>
+												<li>입금 시 주문자 이름과 상관없이 금액만 일치하면 정상 입금처리 됩니다.</li>
+												<li>해외은행 계좌에서 입금 시에는 반드시 원화로 입금하셔야 합니다.</li>
+
+												<li>취소/반품 신청 시 환불수단을 무통장이나 캐시로 선택하여 환불 받으실 수 있습니다.</li>
+
+											</ul>
+										</div></td>
+								</tr>
+								<!--  // 무통장 입금 안내  -->
+								<!-- 편의점 결제 안내  -->
+								<tr id="CVS_TABLE" name="CVS_TABLE" style="display: none"
+									data-log-actionid-area="payment_realtime_deposit">
+									<th scope="row">결제안내</th>
+									<td><a href="#" class="defbtn_sm dtype6" title="새창열림"
+										onclick="openInfoPop('popInfoCvs.tmall' , 'cvsInfo' , 440 , 420, 'no');doCommonStat('ORPA005');return false;"
+										data-log-actionid-label="cvs_guide"><span>편의점결제안내</span></a>
+										<div class="sett_guide">
+											<ul>
+
+												<li>주문 후 1일(영업일 기준, 주말/공휴일제외) 이내 입금확인이 되지 않으면 주문이 자동 취소
+													처리됩니다.</li>
+
+												<li>편의점 입금 40분 이후 결제확인이 가능합니다. (최소 결제금액 500원)</li>
+												<li>아이디당 일 2회(최대 40만원), 월 최대 100만원 한도 내에서 사용 가능합니다.</li>
+												<li>취소/반품 신청 시 환불수단을 무통장이나 캐시로 선택하여 환불 받으실 수 있습니다.</li>
+											</ul>
+										</div></td>
+								</tr>
+								<!-- // 편의점 결제 안내 -->
+								<tr id="PHONE_TABLE" name="PHONE_TABLE" style="display: none"
+									data-log-actionid-area="phone_bill">
+									<th scope="row">결제안내</th>
+									<td><a href="#" class="defbtn_sm dtype6" title="새창열림"
+										onclick="popInfoPhone();doCommonStat('ORPA012');return false;"
+										data-log-actionid-label="guide"><span>휴대폰결제안내</span></a>
+										<div class="sett_guide">
+											<ul>
+
+												<li>통신사 회원등급별 월 최대 50만원까지 결제가 가능합니다.</li>
+
+												<li>1년 이내 휴대폰 결제 내역이 없는 경우 결제가 불가능합니다.</li>
+												<li>부분취소 진행 시 당월 한도가 부족한 경우 환불 정책에 따라 캐쉬로 환불됩니다.</li>
+												<li>한도문의는 <em>모빌리언스(1600-0523),다날(1566-3355),갤럭시아컴즈(1566-0123),페이레터(1599-2583)</em>로
+													해주시기 바랍니다.
+												</li>
+											</ul>
+										</div></td>
+								</tr>
+								<!-- 실시간 계좌이체  -->
+								<tr id="REALTIME_TABLE" name="REALTIME_TABLE"
+									style="display: none"
+									data-log-actionid-area="payment_realtime_deposit">
+									<th scope="row">결제안내</th>
+									<td data-log-actionid-label="btn"><a href="#"
+										class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoReal.tmall' , 'realInfo' , 520 , 600, 'yes');doCommonStat('ORPA003');return false;"
+										data-log-body="{&quot;btn_name&quot;:&quot;실시간 계좌이체안내&quot;}"><span>실시간
+												계좌이체안내</span></a> <a href="#" class="defbtn_sm dtype6"
+										onclick="openInfoPop('popInfoBank.tmall' , 'backInfo' , 520 , 650, 'yes');doCommonStat('ORPA004');return false;"
+										data-log-body="{&quot;btn_name&quot;:&quot;은행별 이용 가능 시간&quot;}"><span>은행별
+												이용 가능 시간</span></a>
+										<div class="sett_guide">
+											<ul>
+												<li>실시간 계좌이체 1일 이체한도는 200만원입니다.(결제 시 공인인증서 필수)</li>
+											</ul>
+										</div></td>
+								</tr>
+								<!-- // 실시간계좌이체 -->
+								<tr id="TCASH_TABLE" name="TCASH_TABLE" style="display: none"
+									data-log-actionid-area="t_money">
+									<th scope="row">결제안내</th>
+									<td><a href="javascript:_tmoneyPop();"
+										onclick="doCommonStat('ORPA013');" class="defbtn_sm dtype6"
+										title="새창열림" data-log-actionid-label="guide"><span>모바일티머니
+												결제 안내</span></a>
+										<p class="sett_guide">
+											NFC지원 휴대폰에 티머니 NFC USIM을 장착하여, 대중교통, 편의점, 온라인에서 <br>간편하게
+											결제가 가능한 서비스입니다. <br>모바일 결제 전에 웹에서 결제 확인을 할 경우 주문이 완료되지
+											않을 수 있습니다. <br>모바일 티머니 관련문의: <em><a
+												href="https://www.t-money.co.kr/jsp/tpub/tmobile/mobile_guide.jsp"
+												target="_blank" title="모바일티머니 관련 문의">㈜한국스마트카드 고객센터
+													1644-0088</a></em>
+										</p></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--// others -->
+
+		</div>
+
+
+
+
+
+		<script>
+            
+            cardFreeArr[0] = new cardFreeBO('08' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[1] = new cardFreeBO('08' , '7,8,9,10,11,12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[2] = new cardFreeBO('08' , '13,14,15,16,17,18,19,20,21,22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[3] = new cardFreeBO('01' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[4] = new cardFreeBO('01' , '7,8,9,10,11,12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[5] = new cardFreeBO('01' , '13,14,15,16,17,18,19,20,21,22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[6] = new cardFreeBO('27' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[7] = new cardFreeBO('31' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[8] = new cardFreeBO('07' , '2,3,4,5,6,7' , '50000','00', 'N', '');
+            
+            cardFreeArr[9] = new cardFreeBO('07' , '8,9,10,11,12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[10] = new cardFreeBO('07' , '13,14,15,16,17,18,19,20,21,22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[11] = new cardFreeBO('02' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[12] = new cardFreeBO('02' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[13] = new cardFreeBO('17' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[14] = new cardFreeBO('04' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[15] = new cardFreeBO('06' , '2,3' , '50000','00', 'N', '');
+            
+            cardFreeArr[16] = new cardFreeBO('11' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[17] = new cardFreeBO('16' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[18] = new cardFreeBO('16' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeArr[19] = new cardFreeBO('35' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeArr[20] = new cardFreeBO('36' , '2,3,4,5,6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[0] = new cardFreeBO('01' , '10' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[1] = new cardFreeBO('01' , '11' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[2] = new cardFreeBO('01' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[3] = new cardFreeBO('01' , '7' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[4] = new cardFreeBO('01' , '8' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[5] = new cardFreeBO('01' , '9' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[6] = new cardFreeBO('01' , '13' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[7] = new cardFreeBO('01' , '14' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[8] = new cardFreeBO('01' , '15' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[9] = new cardFreeBO('01' , '16' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[10] = new cardFreeBO('01' , '17' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[11] = new cardFreeBO('01' , '18' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[12] = new cardFreeBO('01' , '19' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[13] = new cardFreeBO('01' , '20' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[14] = new cardFreeBO('01' , '21' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[15] = new cardFreeBO('01' , '22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[16] = new cardFreeBO('02' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[17] = new cardFreeBO('07' , '10' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[18] = new cardFreeBO('07' , '11' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[19] = new cardFreeBO('07' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[20] = new cardFreeBO('07' , '8' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[21] = new cardFreeBO('07' , '9' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[22] = new cardFreeBO('07' , '13' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[23] = new cardFreeBO('07' , '14' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[24] = new cardFreeBO('07' , '15' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[25] = new cardFreeBO('07' , '16' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[26] = new cardFreeBO('07' , '17' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[27] = new cardFreeBO('07' , '18' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[28] = new cardFreeBO('07' , '19' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[29] = new cardFreeBO('07' , '20' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[30] = new cardFreeBO('07' , '21' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[31] = new cardFreeBO('07' , '22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[32] = new cardFreeBO('08' , '10' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[33] = new cardFreeBO('08' , '11' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[34] = new cardFreeBO('08' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[35] = new cardFreeBO('08' , '7' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[36] = new cardFreeBO('08' , '8' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[37] = new cardFreeBO('08' , '9' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[38] = new cardFreeBO('08' , '13' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[39] = new cardFreeBO('08' , '14' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[40] = new cardFreeBO('08' , '15' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[41] = new cardFreeBO('08' , '16' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[42] = new cardFreeBO('08' , '17' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[43] = new cardFreeBO('08' , '18' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[44] = new cardFreeBO('08' , '19' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[45] = new cardFreeBO('08' , '20' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[46] = new cardFreeBO('08' , '21' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[47] = new cardFreeBO('08' , '22' , '1000000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[48] = new cardFreeBO('16' , '12' , '200000','03', 'N', 'SYRUP');
+            
+            cardFreeInfoArr[49] = new cardFreeBO('01' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[50] = new cardFreeBO('01' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[51] = new cardFreeBO('01' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[52] = new cardFreeBO('01' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[53] = new cardFreeBO('01' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[54] = new cardFreeBO('02' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[55] = new cardFreeBO('02' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[56] = new cardFreeBO('02' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[57] = new cardFreeBO('02' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[58] = new cardFreeBO('02' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[59] = new cardFreeBO('04' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[60] = new cardFreeBO('04' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[61] = new cardFreeBO('04' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[62] = new cardFreeBO('04' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[63] = new cardFreeBO('04' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[64] = new cardFreeBO('06' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[65] = new cardFreeBO('06' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[66] = new cardFreeBO('07' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[67] = new cardFreeBO('07' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[68] = new cardFreeBO('07' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[69] = new cardFreeBO('07' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[70] = new cardFreeBO('07' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[71] = new cardFreeBO('07' , '7' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[72] = new cardFreeBO('08' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[73] = new cardFreeBO('08' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[74] = new cardFreeBO('08' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[75] = new cardFreeBO('08' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[76] = new cardFreeBO('08' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[77] = new cardFreeBO('11' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[78] = new cardFreeBO('11' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[79] = new cardFreeBO('11' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[80] = new cardFreeBO('11' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[81] = new cardFreeBO('11' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[82] = new cardFreeBO('16' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[83] = new cardFreeBO('16' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[84] = new cardFreeBO('16' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[85] = new cardFreeBO('16' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[86] = new cardFreeBO('16' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[87] = new cardFreeBO('17' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[88] = new cardFreeBO('17' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[89] = new cardFreeBO('17' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[90] = new cardFreeBO('17' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[91] = new cardFreeBO('17' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[92] = new cardFreeBO('27' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[93] = new cardFreeBO('27' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[94] = new cardFreeBO('27' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[95] = new cardFreeBO('27' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[96] = new cardFreeBO('27' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[97] = new cardFreeBO('31' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[98] = new cardFreeBO('31' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[99] = new cardFreeBO('31' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[100] = new cardFreeBO('31' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[101] = new cardFreeBO('31' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[102] = new cardFreeBO('35' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[103] = new cardFreeBO('35' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[104] = new cardFreeBO('35' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[105] = new cardFreeBO('35' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[106] = new cardFreeBO('35' , '6' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[107] = new cardFreeBO('36' , '2' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[108] = new cardFreeBO('36' , '3' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[109] = new cardFreeBO('36' , '4' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[110] = new cardFreeBO('36' , '5' , '50000','00', 'N', '');
+            
+            cardFreeInfoArr[111] = new cardFreeBO('36' , '6' , '50000','00', 'N', '');
+            
+		</script>
+
+		<!-- 지급유예 무이자행사:S -->
+		<div class="interest_free" id="CARD_TABLE_ETC" name="CARD_TABLE_ETC"
+			style="">
+
+			<h4>무이자할부 적용카드</h4>
+
+			<div>
+				<table>
+					<caption>무이자할부 적용카드</caption>
+					<tbody>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[08] != null && cardImgArr[08] != "" && typeof(cardNmArr[08] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[08]+"' alt='"+cardNmArr[08]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_08.gif"
+								alt="신한카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span>
+										7,8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[01] != null && cardImgArr[01] != "" && typeof(cardNmArr[01] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[01]+"' alt='"+cardNmArr[01]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_01.gif"
+								alt="국민카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span>
+										7,8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[27] != null && cardImgArr[27] != "" && typeof(cardNmArr[27] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[27]+"' alt='"+cardNmArr[27]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_02.gif"
+								alt="비씨카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[31] != null && cardImgArr[31] != "" && typeof(cardNmArr[31] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[31]+"' alt='"+cardNmArr[31]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_100.gif"
+								alt="우리카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[07] != null && cardImgArr[07] != "" && typeof(cardNmArr[07] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[07]+"' alt='"+cardNmArr[07]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_07.gif"
+								alt="현대카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6,7개월 (5만원 이상) </span> <span>
+										8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[02] != null && cardImgArr[02] != "" && typeof(cardNmArr[02] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[02]+"' alt='"+cardNmArr[02]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_04.gif"
+								alt="삼성카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span> 12개월 (20만원
+										이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[17] != null && cardImgArr[17] != "" && typeof(cardNmArr[17] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[17]+"' alt='"+cardNmArr[17]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_98.gif"
+								alt="하나SK카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[04] != null && cardImgArr[04] != "" && typeof(cardNmArr[04] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[04]+"' alt='"+cardNmArr[04]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_05.gif"
+								alt="외환카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[06] != null && cardImgArr[06] != "" && typeof(cardNmArr[06] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[06]+"' alt='"+cardNmArr[06]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_06.gif"
+								alt="롯데카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[11] != null && cardImgArr[11] != "" && typeof(cardNmArr[11] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[11]+"' alt='"+cardNmArr[11]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_09.gif"
+								alt="시티카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[16] != null && cardImgArr[16] != "" && typeof(cardNmArr[16] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[16]+"' alt='"+cardNmArr[16]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_18.gif"
+								alt="농협카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span> 12개월 (20만원
+										이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                    if(cardImgArr[35] != null && cardImgArr[35] != "" && typeof(cardNmArr[35] )  != "undefined")
+                        document.write("<img src='" + cardImgArr[35]+"' alt='"+cardNmArr[35]+"'>");
+				</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_35.gif"
+								alt="SC리워드카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<ul class="btm_noteli">
+				<li>제외품목 : 순금매장, 아동용쥬얼리, 복지용구(요양보험), e-쿠폰/상품권/이용권,
+					문화비소득공제상품(도서/티켓) 등 <span>(제외품목 상품을 포함하여 할부 결제 시 할부 수수료가
+						청구됩니다)</span>
+				</li>
+				<li>제외카드 : 체크/법인/선불/기프트/NON-BC카드 제외(BC계열은 BC카드 무이자 한도 적용)</li>
+			</ul>
+		</div>
+		<!-- 지급유예 무이자행사:E -->
+
+
+		<!-- 시럽페이 -  무이자행사:S -->
+		<div class="interest_free" id="SYRUP_TABLE" name="SYRUP_TABLE"
+			style="display: none">
+
+			<h4>무이자할부 적용카드</h4>
+
+			<div>
+				<table>
+					<caption>무이자할부 적용카드</caption>
+					<tbody>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[08] != null && cardImgArr[08] != "" && typeof(cardNmArr[08] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[08]+"' alt='"+cardNmArr[08]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_08.gif"
+								alt="신한카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span>
+										7,8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[01] != null && cardImgArr[01] != "" && typeof(cardNmArr[01] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[01]+"' alt='"+cardNmArr[01]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_01.gif"
+								alt="국민카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span>
+										7,8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[27] != null && cardImgArr[27] != "" && typeof(cardNmArr[27] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[27]+"' alt='"+cardNmArr[27]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_02.gif"
+								alt="비씨카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[31] != null && cardImgArr[31] != "" && typeof(cardNmArr[31] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[31]+"' alt='"+cardNmArr[31]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_100.gif"
+								alt="우리카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[07] != null && cardImgArr[07] != "" && typeof(cardNmArr[07] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[07]+"' alt='"+cardNmArr[07]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_07.gif"
+								alt="현대카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6,7개월 (5만원 이상) </span> <span>
+										8,9,10,11,12개월 (20만원 이상,SK pay 전용) </span> <span>
+										13,14,15,16,17,18,19,20,21,22개월 (100만원 이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[02] != null && cardImgArr[02] != "" && typeof(cardNmArr[02] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[02]+"' alt='"+cardNmArr[02]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_04.gif"
+								alt="삼성카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span> 12개월 (20만원
+										이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[17] != null && cardImgArr[17] != "" && typeof(cardNmArr[17] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[17]+"' alt='"+cardNmArr[17]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_98.gif"
+								alt="하나SK카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[04] != null && cardImgArr[04] != "" && typeof(cardNmArr[04] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[04]+"' alt='"+cardNmArr[04]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_05.gif"
+								alt="외환카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[06] != null && cardImgArr[06] != "" && typeof(cardNmArr[06] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[06]+"' alt='"+cardNmArr[06]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_06.gif"
+								alt="롯데카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[11] != null && cardImgArr[11] != "" && typeof(cardNmArr[11] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[11]+"' alt='"+cardNmArr[11]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_09.gif"
+								alt="시티카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[16] != null && cardImgArr[16] != "" && typeof(cardNmArr[16] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[16]+"' alt='"+cardNmArr[16]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_18.gif"
+								alt="농협카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span> <span> 12개월 (20만원
+										이상,SK pay 전용) </span>
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row"><script>
+                if(cardImgArr[35] != null && cardImgArr[35] != "" && typeof(cardNmArr[35] )  != "undefined")
+                    document.write("<img src='" + cardImgArr[35]+"' alt='"+cardNmArr[35]+"'>");
+			</script><img src="https://www.11st.co.kr/img/common/icon/ico_card_35.gif"
+								alt="SC리워드카드"></th>
+							<td>
+								<div>
+
+									<span> 2,3,4,5,6개월 (5만원 이상) </span>
+
+
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<ul class="btm_noteli">
+				<li>제외품목 : 순금매장, 아동용쥬얼리, 복지용구(요양보험), e-쿠폰/상품권/이용권,
+					문화비소득공제상품(도서/티켓) 등 <span>(제외품목 상품을 포함하여 할부 결제 시 할부 수수료가
+						청구됩니다)</span>
+				</li>
+				<li>제외카드 : 체크/법인/선불/기프트/NON-BC카드 제외(BC계열은 BC카드 무이자 한도 적용)</li>
+			</ul>
+		</div>
+
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<script>
+	$(document).ready(function() {
+	
+	});
+
+</script>
+	<div>
+				<h2>
+					<span class="C" style="float: left;">2019 타경 107180</span><br>
+				</h2>
+				<p>
+					<span class="C" style="text-align: center;">[아파트] 서울 아파트</span>
+				</p>
+			</div>
+					
+	
+<%@ include file="../include/footer.jsp"%>

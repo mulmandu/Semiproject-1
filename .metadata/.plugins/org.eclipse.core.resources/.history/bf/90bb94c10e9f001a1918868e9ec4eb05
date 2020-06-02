@@ -1,0 +1,58 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<style>
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	background-color: white;
+	transition: 0.5s ease-in-out;
+	padding-top: 60px;
+}
+
+
+@media screen and (max-height:450px) {
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
+}
+</style>
+<title>aside.jsp</title>
+</head>
+<body>
+	<div class="th_Chosen">	
+<div class="th_ChsenList">
+		<div class="th_ChsenList_img">이미지</div>
+		<div class="th_ChsenList_SimpleData">간략한 정보</div>
+		<div class="th_ChsenList_Price">매물 가격 등</div>
+	</div>
+	<div class="th_ChsenList">
+		<div class="th_ChsenList_img">이미지</div>
+		<div class="th_ChsenList_SimpleData">간략한 정보</div>
+		<div class="th_ChsenList_Price">매물 가격 등</div>
+	</div>
+	<div class="th_ChsenList">
+		<div class="th_ChsenList_img">이미지</div>
+		<div class="th_ChsenList_SimpleData">간략한 정보</div>
+		<div class="th_ChsenList_Price">매물 가격 등</div>
+	</div>
+	<div class="th_ChsenList">
+		<div class="th_ChsenList_img">이미지</div>
+		<div class="th_ChsenList_SimpleData">간략한 정보</div>
+		<div class="th_ChsenList_Price">매물 가격 등</div>
+	</div>
+	<div class="th_ChsenList">
+		<div class="th_ChsenList_img">이미지</div>
+		<div class="th_ChsenList_SimpleData">간략한 정보</div>
+		<div class="th_ChsenList_Price">매물 가격 등</div>
+	</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+package model;
+
+
+public class CommunityPage {
+	private static CommercialPage page;
+	private int subcode;
+	private CommunityPage(int code) {
+		this.subcode = code;
+	}
+	public static synchronized getPage() {
+		
+	}
+}	

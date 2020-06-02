@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data">
+	<select id="gu" parameterType="String" resultType="String">
+		select distinct 시군구명 from rawdata
+	</select>
+	<select id="large" resultType="String">
+		select distinct 상권업종대분류명 from rawdata
+	</select>
+	<select id="medium" parameterType="String" resultType="String">
+		select distinct 상권업종중분류명 from rawdata where 상권업종대분류명 = #{largeName}
+	</select>
+	<select id="small" parameterType="vo.DataVO" resultType="String">
+		select distinct 상권업종소분류명 from rawdata where 상권업종대분류명 = #{largeName} and 상권업종중분류명 = #{mediumName}
+	</select>
+	<select id="map" parameterType="vo.DataVO" resultType="vo.DataVO">
+		select 위도 lat, 경도 lng from rawdata where 시군구명 = #{target} and 상권업종대분류명 = #{largeName} and 상권업종중분류명 = #{mediumName} and 상권업종소분류명 = #{smallName}
+	</select>
+	<select id="totalcount" resultType="vo.DataVO">
+		select count(*), 시군구명 from rawdata group by 시군구명
+	</select>
+</mapper>

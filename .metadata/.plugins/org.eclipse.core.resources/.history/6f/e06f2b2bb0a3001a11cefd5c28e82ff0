@@ -1,0 +1,9 @@
+index=model.IndexPage
+search=model.SearchPage
+estate=model.EstatePage
+login=model.LoginPage
+customer=model.CustomerPage
+community=model.CommunityPage
+commercial=model.CommercialPage
+auction=model.AuctionPage
+payment=model.PaymentPage

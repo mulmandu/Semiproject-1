@@ -1,0 +1,11 @@
+INDEX VERSION 1.4+C:\ikosmo64\webapp\projectworkspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1213203894.index
+3095144989.index
+1678797230.index
+3768997131.index
+950285679.index
+4065110791.index
+1657330681.index
+2884512155.index
+3581163120.index
+535894402.index

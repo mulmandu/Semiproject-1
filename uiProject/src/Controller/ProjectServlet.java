@@ -1,0 +1,65 @@
+package Controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import model.PageModel;
+
+/**
+ * Servlet implementation class ProjectServlet
+ */
+@WebServlet("*.Project")
+public class ProjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+   
+    public ProjectServlet() {
+     
+    }
+
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("EUC-KR");
+		response.setContentType("text/html; charset=EUC-KR");
+		String page= request.getParameter("page");
+		String code=request.getParameter("code");
+		System.out.println("서버시작");
+		if(page!=null) {
+			PageFactory factory= PageFactory.getFactory();
+			PageModel model=factory.getModel(page,Integer.parseInt((code==null||code.equals("")?"0":code)));
+			System.out.println("팩토리 ");
+			PageForward forward= model.execute(request, response);
+			System.out.println("포워드시작?");
+			StringBuilder sb= new StringBuilder();
+			
+			if(forward.isMethod()) {
+				response.sendRedirect(forward.getPageName());
+			}else {
+				sb.append("/WEB-INF/views/").append(forward.getPageName()).append(".jsp");
+				RequestDispatcher rd = request.getRequestDispatcher(sb.toString());
+				rd.forward(request, response);
+			}
+			
+		}else {
+			PrintWriter pw= response.getWriter();
+			pw.append("<h1 style=\"color:red;\">서버시작 실패!</h1>");
+			
+		}
+		
+		
+	}
+}

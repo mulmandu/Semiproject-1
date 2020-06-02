@@ -1,0 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="floatdiv">
+    <ul> 
+   메뉴 또는 광고 소스를 넣으세요
+   </ul>
+</div>
+</body>
+</html>

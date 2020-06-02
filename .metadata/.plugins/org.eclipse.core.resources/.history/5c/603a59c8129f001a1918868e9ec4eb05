@@ -1,0 +1,24 @@
+package model;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import Controller.PageForward;
+
+public class CommunityPage implements PageModel{
+	private static CommercialPage page;
+	private int subcode;
+	private CommunityPage(int code) {
+		this.subcode = code;
+	}
+	public static synchronized CommercialPage getPage() {
+		if(page!=null) page = new CommercialPage();
+	}
+	@Override
+	public PageForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}	
