@@ -19,7 +19,7 @@ public class LoginPage implements PageModel{
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+		request.setAttribute("title","login");
 		if(code==1) {
 			return new PageForward("login/loginform",false);
 		}else if(code==2){

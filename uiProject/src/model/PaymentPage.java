@@ -21,6 +21,7 @@ public class PaymentPage implements PageModel {
 	}
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setAttribute("title","payment");
 		 if (code == 1) {
 			return new PageForward("payment/payment1", false);
 		} else if(code==2) {

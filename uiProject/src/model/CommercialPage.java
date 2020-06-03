@@ -21,6 +21,7 @@ public class CommercialPage implements PageModel {
 	}
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setAttribute("title","commercial");
 		if (code == 1) {
 			return execute0(request, response);
 		} /*

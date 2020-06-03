@@ -19,7 +19,7 @@ public class EstatePage implements PageModel{
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+		request.setAttribute("title","estate");
 		if(code==1) {
 			return new PageForward("estate/estate",false);
 		}else if(code==2){

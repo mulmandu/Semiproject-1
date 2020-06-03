@@ -19,7 +19,7 @@ public class CommunityPage implements PageModel{
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+		request.setAttribute("title","community");
 		if(code==1) {
 			return new PageForward("community/community",false);
 		}else if(code==2){

@@ -4,7 +4,7 @@
         <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright ¨Ï   Your Website 2020</div></footer>
         <!-- Bootstrap core JS-->
       
-        <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
@@ -58,6 +58,51 @@
         		 	
         	   });
         	    
+        	   
+        	   var name='';
+        	   var iteminvi='invisible';
+        	   var itemvi='visible';
+        	   var itemnme='invisible';
+        	   var num=0;
+        	   var num2=0;
+        	  $('.nav-item').click(function() {
+        	  
+        	  	
+        	  	
+        	  	var name='.'+$(this).children('input').val();
+        	  	$(name).removeClass(iteminvi);
+        	  	$(name).addClass(itemvi);
+        	 	if(itemnme === 'visible'){
+  		 	      
+    		 		$(name).slideUp(1000);
+    		 		$('.openmenu').each(function(i) {
+    		 			num=parseInt(($(this).css('margin-top').substring(0, 3)));
+    		 			
+    		 			
+    		 			num2=parseInt('80');
+    		 		
+    		 			$(this).css("margin-top", (num-num2))
+    		 			
+    		 		})
+    		 	}else {
+    		 		
+    		 		$(name).slideDown(1000);
+    		 		$('.openmenu').each(function(i) {
+    		 			
+    		 			num=parseInt(($(this).css('margin-top').substring(0, 2)));
+    		 			num2=parseInt('80');
+    		 			
+    		 			$(this).css("margin-top", (num+num2))
+    		 			
+    		 		})
+    		 	}
+        	 	
+        	 	itemnme=itemvi;
+        	 	itemvi=iteminvi;
+        	 	iteminvi=itemnme;
+        	  })
+        	   
+        	   
         	    
 		});
          

@@ -4001,7 +4001,7 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #fff;
+ 
   border-color: #dee2e6 #dee2e6 #fff;
 }
 .nav-tabs .dropdown-menu {
@@ -10217,8 +10217,8 @@ background-color: transparent;
     color: rgba(255, 255, 255, 0.75);
   }
     #mainNav2 .nav-link:hover {
-    color: #343a40;
-    background-color: white;
+    color: #F7FE2E;
+  
   }
    #mainNav2 .nav-link2:hover {
     color: #343a40;
@@ -10547,4 +10547,10 @@ color:white;
     width: 300px;
     height: 30px;
 	
+}
+.menu-top{
+		position:fixed;
+		top:80px;
+		background-color: white;	
+		z-index: 1070;
 }

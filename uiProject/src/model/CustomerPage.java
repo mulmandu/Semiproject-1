@@ -19,7 +19,7 @@ public class CustomerPage implements PageModel{
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+		request.setAttribute("title","customer");
 		if(code==1) {
 			return new PageForward("customer_board/board",false);
 		}else if(code==2){

@@ -19,7 +19,7 @@ public class AuctionPage implements PageModel{
 	@Override
 	public PageForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+			request.setAttribute("title","auction");
 		if(code==1) {
 			return new PageForward("auction/auction_main",false);
 		}else if(code==2){

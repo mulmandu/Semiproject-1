@@ -6,7 +6,7 @@
 <%@ include file="../include/header_menu.jsp"%>
 <section class="contact-section " >
 	<%@ include file="../include/searchFilter.jsp" %>
-	<div class="container2" style="margin-top: 50px; height: 80%;">
+	<div class="container2 openmenu" style="margin-top: 50px; height: 80%;">
 		<div class="row">
 			<div class="col-md-12 mt-5">
 				<!--  body -->
