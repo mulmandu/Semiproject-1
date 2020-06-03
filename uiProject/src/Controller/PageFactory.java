@@ -18,7 +18,7 @@ public class PageFactory {
 	}
 	public PageModel getModel(String name,int code) {
 		PageModel model=null;
-		String path="C:\\ikosmo64\\webapp\\projectworkspace\\uiProject\\src\\Controller\\model.properties";
+		String path="C:\\ikosmo64\\semi\\Semiproject\\uiProject\\src\\Controller\\model.properties";
 		try(FileInputStream fis=new FileInputStream(path)){
 			prop.load(fis);
 			String rpath=prop.getProperty(name, "index");
